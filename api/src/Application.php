@@ -68,6 +68,7 @@ class Application extends BaseApplication
         // Load more plugins here
         $this->addPlugin('ApiTokenAuthenticator');
         $this->addPlugin('JsonApiException');
+        $this->addPlugin('Cors');
     }
 
     /**
