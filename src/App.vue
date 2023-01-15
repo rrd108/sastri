@@ -19,6 +19,7 @@
 
 <template>
   <h1>Sastri</h1>
+  <router-view />
   <input type="date" v-model="date" />
   <select v-model="book">
     <option v-for="book in books">{{ book.title }}</option>
