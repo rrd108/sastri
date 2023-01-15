@@ -19,10 +19,8 @@ class AdvancementsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users', 'Books'],
-        ];
-        $advancements = $this->paginate($this->Advancements);
+        $this->paginate = ['contain' => ['Books']];
+        $advancements = $this->paginate($this->Advancements->find()->where(['user_id' => $this->Authentication->getIdentity()->getIdentifier()]));
         $this->set(compact('advancements'));
         $this->viewBuilder()->setOption('serialize', ['advancements']);
     }
