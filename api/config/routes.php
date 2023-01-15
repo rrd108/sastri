@@ -73,6 +73,7 @@ return static function (RouteBuilder $routes) {
          */
 
         $builder->setExtensions(['json']);
+        $builder->resources('Advancements');
         $builder->resources('Books');
         $builder->resources('Users');
 
