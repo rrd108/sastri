@@ -28,6 +28,10 @@ section {
   padding: 1em;
 }
 
+input {
+  font-size: 1.25rem;
+}
+
 section {
   color: var(--dark);
   background-color: var(--light);
