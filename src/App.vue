@@ -2,7 +2,9 @@
 
 <template>
   <h1>Sastri</h1>
-  <router-view />
+  <main>
+    <router-view />
+  </main>
 </template>
 
 <style scoped></style>

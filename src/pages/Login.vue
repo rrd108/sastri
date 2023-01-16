@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import axios from 'axios'
   import { ref } from 'vue'
-  import store from '@/store.ts'
-  import router from '@/router.ts'
+  import store from '@/store'
+  import router from '@/router'
 
   const email = ref('')
   const password = ref('')
@@ -14,7 +14,7 @@
         password: password.value,
       })
       .then(res => {
-        store.user = res.data.user
+        store.value.user = res.data.user
         router.push('/dashboard')
       })
       .catch(err => console.error(err))

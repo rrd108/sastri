@@ -1,3 +1,36 @@
 :root {
+  --dark: #2e0f15;
+  --red: #70163c;
+  --light: #fff;
+  --green: #307351;
+}
+
+* {
   font-family: 'Quicksand', sans-serif;
+}
+
+body {
+  background-color: var(--dark);
+  color: var(--light);
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+main,
+section {
+  padding: 1em;
+}
+
+section {
+  color: var(--dark);
+  background-color: var(--light);
+  border-radius: 0.5em;
+  margin: 1em auto;
 }
