@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Chronos\Date;
+use Cake\I18n\FrozenDate;
+
 /**
  * Advancements Controller
  *
@@ -20,9 +23,40 @@ class AdvancementsController extends AppController
     public function index()
     {
         $this->paginate = ['contain' => ['Books']];
-        $advancements = $this->paginate($this->Advancements->find()->where(['user_id' => $this->Authentication->getIdentity()->getIdentifier()]));
+        $advancements = $this->paginate($this->Advancements->find()
+            ->where([
+                'user_id' => $this->Authentication->getIdentity()->getIdentifier(),
+                'date >=' => '2023-01-01',
+                'date <=' => '2023-01-08',
+            ]));
+
+        $allDates = $this->getBetweenDates('2023-01-01', '2023-01-08');
+        $advancementsDates = $advancements->extract('date')->toArray();
+        $missingDates = array_diff($allDates, $advancementsDates);
+
+        $advancements = $advancements->toArray();
+
+        foreach ($missingDates as $missingDate) {
+            $advancements[] = ["date" => $missingDate, "pages" => 0];
+        }
+
         $this->set(compact('advancements'));
         $this->viewBuilder()->setOption('serialize', ['advancements']);
+    }
+
+    private function getBetweenDates($startDate, $endDate)
+    {
+        $rangArray = [];
+
+        $startDate = strtotime($startDate);
+        $endDate = strtotime($endDate);
+
+        for ($currentDate = $startDate; $currentDate <= $endDate; $currentDate += (86400)) {
+
+            $rangArray[] = new FrozenDate($currentDate);
+        }
+
+        return $rangArray;
     }
 
     /**

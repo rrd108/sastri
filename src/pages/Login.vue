@@ -57,13 +57,13 @@
   }
 
   input {
-    border-radius: 0.5em;
     padding: 0.5em;
+    font-size: 1.25rem;
   }
 
   input[type='submit'] {
     background-color: var(--light);
-    color: #fff;
+    color: var(--night);
     font-weight: bold;
     border: none;
     padding: 0.5em 1em;

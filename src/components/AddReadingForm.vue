@@ -19,12 +19,26 @@
 </script>
 
 <template>
-  <input type="date" v-model="date" />
-  <select v-model="book">
-    <option v-for="book in books">{{ book.title }}</option>
-  </select>
-  <input type="number" v-model.number="pages" />
-  <button>Ment</button>
+  <div>
+    <input type="date" v-model="date" />
+    <select v-model="book">
+      <option v-for="book in books">{{ book.title }}</option>
+    </select>
+  </div>
+  <div>
+    <input type="number" v-model.number="pages" class="right" />
+    <button>Ment</button>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  div {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+  }
+  input[type='number'],
+  button {
+    width: 6em;
+  }
+</style>

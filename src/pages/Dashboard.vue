@@ -29,8 +29,19 @@
 
   const chartOptions = {
     responsive: true,
-    borderColor: '#307351',
+    borderColor: '#e0ca3c',
+    backgroundColor: '#e0ca3c99',
     fill: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: 'Pages read',
+        color: '#fff9',
+      },
+    },
   }
 
   const advancements = ref({ labels: [], datasets: [] })
@@ -40,12 +51,23 @@
       headers: { Token: store.value.user.token },
     })
     .then(res => {
+      const pages = []
+      Object.values(res.data.advancements).forEach(a => {
+        const pageData = pages.find(p => p.date == a.date)
+        if (!pageData) {
+          pages.push({ date: a.date, pages: a.pages })
+        } else {
+          pageData.pages += a.pages
+        }
+      })
+      pages.sort((a, b) => (a.date > b.date ? 1 : -1))
+      console.log(pages)
       advancements.value = {
-        labels: res.data.advancements.map(a => a.date),
+        labels: pages.map(p => p.date),
         datasets: [
           {
             label: 'Pages',
-            data: res.data.advancements.map(a => a.pages),
+            data: pages.map(p => p.pages),
           },
         ],
       }
@@ -54,7 +76,6 @@
 </script>
 
 <template>
-  <h2>Dashboard</h2>
   <AddReadingForm />
 
   <section>
