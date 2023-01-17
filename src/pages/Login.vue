@@ -47,9 +47,25 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 0.5em;
   }
   svg {
     fill: #fff;
+    width: 50%;
+    margin: 3em 0;
+  }
+
+  input {
+    border-radius: 0.5em;
+    padding: 0.5em;
+  }
+
+  input[type='submit'] {
+    background-color: var(--light);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 0.5em 1em;
   }
 </style>

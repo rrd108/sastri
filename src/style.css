@@ -1,8 +1,6 @@
 :root {
-  --dark: #2e0f15;
-  --red: #70163c;
-  --light: #fff;
-  --green: #307351;
+  --dark: #5c2751;
+  --light: #f4c095;
 }
 
 * {
@@ -11,7 +9,7 @@
 
 body {
   background-color: var(--dark);
-  color: var(--light);
+  color: #fff;
   margin: 0;
   padding: 0;
 }
@@ -30,6 +28,7 @@ section {
 
 input {
   font-size: 1.25rem;
+  margin-bottom: 0.5em;
 }
 
 section {
