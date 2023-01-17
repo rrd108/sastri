@@ -7,6 +7,10 @@
   const email = ref('')
   const password = ref('')
 
+  if (sessionStorage.getItem('user')) {
+    store.value.user = JSON.parse(sessionStorage.getItem('user'))
+    router.push('/dashboard')
+  }
   const login = () =>
     axios
       .post(`${import.meta.env.VITE_APP_API_URL}users/login.json`, {
@@ -15,6 +19,7 @@
       })
       .then(res => {
         store.value.user = res.data.user
+        sessionStorage.setItem('user', JSON.stringify(res.data.user))
         router.push('/dashboard')
       })
       .catch(err => console.error(err))
@@ -30,7 +35,7 @@
     </svg>
     <form @submit.prevent="login">
       <input type="text" v-model="email" placeholder="email" />
-      <input type="password" placeholder="password" />
+      <input type="password" v-model="password" placeholder="password" />
       <input type="submit" value="Belép" />
     </form>
   </div>
