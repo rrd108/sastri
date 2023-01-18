@@ -45,7 +45,7 @@ class BooksController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    /*public function add()
     {
         $book = $this->Books->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -58,7 +58,7 @@ class BooksController extends AppController
             $this->Flash->error(__('The book could not be saved. Please, try again.'));
         }
         $this->set(compact('book'));
-    }
+    }*/
 
     /**
      * Edit method
@@ -67,7 +67,7 @@ class BooksController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    /*public function edit($id = null)
     {
         $book = $this->Books->get($id, [
             'contain' => [],
@@ -82,7 +82,7 @@ class BooksController extends AppController
             $this->Flash->error(__('The book could not be saved. Please, try again.'));
         }
         $this->set(compact('book'));
-    }
+    }*/
 
     /**
      * Delete method
@@ -91,7 +91,7 @@ class BooksController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    /*public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $book = $this->Books->get($id);
@@ -102,5 +102,5 @@ class BooksController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
+    }*/
 }

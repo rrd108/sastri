@@ -8,7 +8,7 @@
   const password = ref('')
 
   if (sessionStorage.getItem('user')) {
-    store.value.user = JSON.parse(sessionStorage.getItem('user'))
+    store.value.user = JSON.parse(sessionStorage.getItem('user') || '{}')
     router.push('/dashboard')
   }
   const login = () =>

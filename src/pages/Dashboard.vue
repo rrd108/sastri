@@ -13,8 +13,10 @@
     Tooltip,
     Legend,
   } from 'chart.js'
+  import ChartDataLabels from 'chartjs-plugin-datalabels'
   import { Line } from 'vue-chartjs'
   import axios from 'axios'
+  import Advancement from '@/types/Advancement'
 
   ChartJS.register(
     CategoryScale,
@@ -24,7 +26,8 @@
     Filler,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    ChartDataLabels
   )
 
   const chartOptions = {
@@ -41,18 +44,40 @@
         text: 'Pages read',
         color: '#fff9',
       },
+      datalabels: {
+        color: '#fff9',
+      },
     },
   }
 
-  const advancements = ref({ labels: [], datasets: [] })
+  const advancements = ref({
+    labels: [] as string[],
+    datasets: [
+      {
+        label: 'Pages',
+        data: [] as number[],
+      },
+    ],
+  })
+
+  interface Page {
+    date: string
+    pages: number
+  }
 
   axios
     .get(`${import.meta.env.VITE_APP_API_URL}advancements.json`, {
       headers: { Token: store.value.user.token },
     })
     .then(res => {
-      const pages = []
-      Object.values(res.data.advancements).forEach(a => {
+      store.value.advancements = res.data.advancements as Advancement[]
+      sessionStorage.setItem(
+        'advancements',
+        JSON.stringify(res.data.advancements)
+      )
+
+      const pages = [] as Page[]
+      ;(Object.values(res.data.advancements) as Page[]).forEach(a => {
         const pageData = pages.find(p => p.date == a.date)
         if (!pageData) {
           pages.push({ date: a.date, pages: a.pages })
@@ -61,7 +86,7 @@
         }
       })
       pages.sort((a, b) => (a.date > b.date ? 1 : -1))
-      console.log(pages)
+
       advancements.value = {
         labels: pages.map(p => p.date),
         datasets: [
@@ -79,7 +104,7 @@
   <AddReadingForm />
 
   <section>
-    <h4>Statistics for 2023-01-01 - 2023-01-08</h4>
+    <h4>Statistics for 2023-01-10 - 2023-01-20</h4>
     <Line id="advancements" :options="chartOptions" :data="advancements" />
   </section>
 </template>

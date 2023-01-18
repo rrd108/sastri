@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use Cake\Chronos\Date;
 use Cake\I18n\FrozenDate;
+use JsonApiException\Error\Exception\JsonApiException;
 
 /**
  * Advancements Controller
@@ -26,11 +27,11 @@ class AdvancementsController extends AppController
         $advancements = $this->paginate($this->Advancements->find()
             ->where([
                 'user_id' => $this->Authentication->getIdentity()->getIdentifier(),
-                'date >=' => '2023-01-01',
-                'date <=' => '2023-01-08',
+                'date >=' => '2023-01-10',
+                'date <=' => '2023-01-20',
             ]));
 
-        $allDates = $this->getBetweenDates('2023-01-01', '2023-01-08');
+        $allDates = $this->getBetweenDates('2023-01-10', '2023-01-20');
         $advancementsDates = $advancements->extract('date')->toArray();
         $missingDates = array_diff($allDates, $advancementsDates);
 
@@ -66,14 +67,14 @@ class AdvancementsController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    /*public function view($id = null)
     {
         $advancement = $this->Advancements->get($id, [
             'contain' => ['Users', 'Books'],
         ]);
 
         $this->set(compact('advancement'));
-    }
+    }*/
 
     /**
      * Add method
@@ -84,17 +85,15 @@ class AdvancementsController extends AppController
     {
         $advancement = $this->Advancements->newEmptyEntity();
         if ($this->request->is('post')) {
-            $advancement = $this->Advancements->patchEntity($advancement, $this->request->getData());
-            if ($this->Advancements->save($advancement)) {
-                $this->Flash->success(__('The advancement has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+            $data = $this->request->getData();
+            $data['user_id'] = $this->Authentication->getIdentity()->getIdentifier();
+            $advancement = $this->Advancements->patchEntity($advancement, $data);
+            if (!$this->Advancements->save($advancement)) {
+                throw new JsonApiException($advancement, 'Save failed');
             }
-            $this->Flash->error(__('The advancement could not be saved. Please, try again.'));
         }
-        $users = $this->Advancements->Users->find('list', ['limit' => 200])->all();
-        $books = $this->Advancements->Books->find('list', ['limit' => 200])->all();
-        $this->set(compact('advancement', 'users', 'books'));
+        $this->set(compact('advancement'));
+        $this->viewBuilder()->setOption('serialize', ['advancement']);
     }
 
     /**
@@ -104,7 +103,7 @@ class AdvancementsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    /*public function edit($id = null)
     {
         $advancement = $this->Advancements->get($id, [
             'contain' => [],
@@ -121,7 +120,7 @@ class AdvancementsController extends AppController
         $users = $this->Advancements->Users->find('list', ['limit' => 200])->all();
         $books = $this->Advancements->Books->find('list', ['limit' => 200])->all();
         $this->set(compact('advancement', 'users', 'books'));
-    }
+    }*/
 
     /**
      * Delete method
@@ -130,7 +129,7 @@ class AdvancementsController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    /*public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $advancement = $this->Advancements->get($id);
@@ -141,5 +140,5 @@ class AdvancementsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
+    }*/
 }
